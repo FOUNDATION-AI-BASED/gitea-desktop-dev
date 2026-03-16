@@ -3,7 +3,7 @@
   "productName": "Gitea Desktop",
   "bundleID": "com.gitea.Desktop",
   "companyName": "Gitea",
-  "version": "3.5.7-beta2",
+  "version": "0.0.1",
   "main": "./main.js",
   "repository": {
     "type": "git",

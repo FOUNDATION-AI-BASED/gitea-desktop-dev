@@ -161,9 +161,9 @@ jobs:
         with:
           name: ${{matrix.friendlyName}}-${{matrix.arch}}
           path: |
-            dist/GitHub Desktop-${{matrix.arch}}.zip
-            dist/GitHubDesktop-*.nupkg
-            dist/GitHubDesktopSetup-${{matrix.arch}}.exe
-            dist/GitHubDesktopSetup-${{matrix.arch}}.msi
+            dist/Gitea Desktop-${{matrix.arch}}.zip
+            dist/GiteaDesktop-*.nupkg
+            dist/GiteaDesktopSetup-${{matrix.arch}}.exe
+            dist/GiteaDesktopSetup-${{matrix.arch}}.msi
             dist/bundle-size.json
           if-no-files-found: error
