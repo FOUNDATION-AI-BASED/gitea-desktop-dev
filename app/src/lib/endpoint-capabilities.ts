@@ -93,6 +93,6 @@ export const supportsRetrieveActionWorkflowByCheckSuiteId = endpointSatisfies({
   es: true,
 })
 
-export const supportsAliveSessions = () => false
+export const supportsAliveSessions = (_ep?: string) => false
 
-export const supportsRepoRules = () => false
+export const supportsRepoRules = (_ep?: string) => false

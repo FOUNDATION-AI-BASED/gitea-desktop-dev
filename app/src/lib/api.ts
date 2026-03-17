@@ -16,7 +16,7 @@ import {
 import { GitProtocol } from './remote-parsing'
 import {
   getEndpointVersion,
-  isGiteaEndpoint,
+  isGHES,
   updateEndpointVersion,
 } from './endpoint-capabilities'
 import {
@@ -2322,12 +2322,13 @@ export async function requestOAuthToken(
   try {
     const urlBase = getHTMLURL(endpoint)
     const tokenUrl = `${urlBase.replace(/\/$/, '')}/login/oauth/access_token`
-    const body = new URLSearchParams({
-      client_id: ClientID,
-      client_secret: ClientSecret,
+    const params: Record<string, string> = {
+      client_id: ClientID ?? '',
+      client_secret: ClientSecret ?? '',
       code: code,
       grant_type: 'authorization_code',
-    }).toString()
+    }
+    const body = new URLSearchParams(params).toString()
 
     const response = await fetch(tokenUrl, {
       method: 'POST',
