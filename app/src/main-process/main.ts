@@ -102,11 +102,11 @@ function getExtraErrorContext(): Record<string, string> {
 /** Extra argument for the protocol launcher on Windows */
 const protocolLauncherArg = '--protocol-launcher'
 
-const possibleProtocols = new Set(['x-github-client'])
+const possibleProtocols = new Set(['x-github-client', 'x-gitea-client'])
 if (__DEV_SECRETS__) {
-  possibleProtocols.add('x-github-desktop-dev-auth')
+  possibleProtocols.add('x-gitea-desktop-dev-auth')
 } else {
-  possibleProtocols.add('x-github-desktop-auth')
+  possibleProtocols.add('x-gitea-desktop-auth')
 }
 // Also support Desktop Classic's protocols.
 if (__DARWIN__) {
@@ -118,7 +118,7 @@ if (__DARWIN__) {
 // On Windows, in order to get notifications properly working for dev builds,
 // we'll want to set the right App User Model ID from production builds.
 if (__WIN32__ && __DEV__) {
-  app.setAppUserModelId('com.squirrel.GitHubDesktop.GitHubDesktop')
+  app.setAppUserModelId('com.squirrel.GiteaDesktop.GiteaDesktop')
 }
 
 app.on('window-all-closed', () => {
