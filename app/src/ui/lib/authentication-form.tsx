@@ -163,7 +163,7 @@ function SignInInstructionsDialog({
           </p>
           <ol>
             <li>Go to <strong>Settings</strong> → <strong>Applications</strong> → <strong>Create OAuth2 Application</strong></li>
-            <li>Set the redirect URI to: <code>x-github-desktop-auth://oauth</code></li>
+            <li>Set the redirect URI to: <code>x-gitea-desktop-auth://oauth</code></li>
             <li>Configure the application and note the Client ID and Client Secret</li>
             <li>Set <code>DESKTOP_OAUTH_CLIENT_ID</code> and <code>DESKTOP_OAUTH_SECRET</code> when building Gitea Desktop</li>
           </ol>
