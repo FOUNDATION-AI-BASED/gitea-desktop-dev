@@ -216,9 +216,9 @@ function packageApp() {
         name: getBundleID(),
         schemes: [
           !isDevelopmentBuild
-            ? 'x-github-desktop-auth'
-            : 'x-github-desktop-dev-auth',
-          'x-github-client',
+            ? 'x-gitea-desktop-auth'
+            : 'x-gitea-desktop-dev-auth',
+          'x-gitea-client',
           'github-mac',
         ],
       },
@@ -243,6 +243,11 @@ function removeAndCopy(source: string, destination: string) {
 
 function copyEmoji() {
   const emojiImages = path.join(projectRoot, 'gemoji', 'images', 'emoji')
+  if (!existsSync(emojiImages)) {
+    throw new Error(
+      `Missing gemoji data at ${emojiImages}. Run: bash script/ensure-vendor-submodules.sh`
+    )
+  }
   const emojiImagesDestination = path.join(outRoot, 'emoji')
   removeAndCopy(emojiImages, emojiImagesDestination)
 
