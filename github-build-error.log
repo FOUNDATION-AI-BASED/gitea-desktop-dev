@@ -1,0 +1,328 @@
+macos: yarn run v1.21.1
+$ yarn compile:prod && cross-env NODE_ENV=production ts-node -P script/tsconfig.json script/build.ts
+$ cross-env NODE_ENV=production TS_NODE_PROJECT=script/tsconfig.json NODE_OPTIONS='--max_old_space_size=4096' webpack --config app/webpack.production.ts
+Webpack Bundle Analyzer saved report to /home/runner/work/gitea-desktop-dev/gitea-desktop-dev/out/renderer.report.html
+asset main.js 231 KiB [emitted] [minimized] (name: main) 2 related assets
+asset desktop-notifications.node 14.6 KiB [emitted] (auxiliary name: main)
+orphan modules 235 KiB [orphan] 66 modules
+runtime modules 1.04 KiB 5 modules
+cacheable modules 564 KiB 155 modules
++ 16 modules
+webpack 5.94.0 compiled successfully in 41001 ms
+
+assets by chunk 167 KiB (auxiliary name: renderer)
+  assets by path *.node 129 KiB
+    asset keytar.node 75.2 KiB [emitted] (auxiliary name: renderer)
+    asset fs_admin.node 39 KiB [emitted] (auxiliary name: renderer)
+    asset desktop-notifications.node 14.6 KiB [compared for emit] (auxiliary name: renderer)
+  assets by info 38.4 KiB [immutable]
+    asset 8de8e0377a0e3218f870.svg 29.7 KiB [emitted] [immutable] [from: app/static/common/release-note-header-left.svg] (auxiliary name: renderer)
+    asset 8e48abccd873a37faf51.svg 8.55 KiB [emitted] [immutable] [from: app/static/common/release-note-header-right.svg] (auxiliary name: renderer)
+    asset a7b45a45d471743a8d54.cmd 79 bytes [emitted] [immutable] [from: app/node_modules/fs-admin/src/copy-folder.cmd] (auxiliary name: renderer)
+assets by chunk 2.92 MiB (name: renderer)
+  asset renderer.js 2.6 MiB [emitted] [minimized] (name: renderer) 2 related assets
+  asset renderer.css 320 KiB [emitted] (name: renderer) 1 related asset
+asset index.html 236 bytes [emitted]
+Entrypoint renderer 2.92 MiB (9.74 MiB) = renderer.css 320 KiB renderer.js 2.6 MiB 8 auxiliary assets
+orphan modules 5.51 MiB (javascript) 38.3 KiB (asset) 1.06 KiB (runtime) [orphan] 909 modules
+runtime modules 2.25 KiB 7 modules
+built modules 5.64 MiB (javascript) 321 KiB (css/mini-extract) 79 bytes (asset) [built]
+  modules by path ./app/node_modules/ 1.07 MiB (javascript) 10.6 KiB (css/mini-extract) 79 bytes (asset)
+    javascript modules 1.07 MiB 398 modules
+    css modules 10.6 KiB 2 modules
+    ./app/node_modules/fs-admin/src/copy-folder.cmd 42 bytes (javascript) 79 bytes (asset) [built] [code generated]
+  modules by path ./app/src/ui/ 4.56 MiB
+    ./app/src/ui/index.tsx + 816 modules 4.56 MiB [not cacheable] [built] [code generated] [1 warning]
+    ./app/src/ui/lib/git-perf.ts 1.34 KiB [built] [code generated]
+  modules by path ./app/styles/*.scss 50 bytes (javascript) 310 KiB (css/mini-extract)
+    ./app/styles/desktop.scss 50 bytes [built] [code generated]
+    css ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./app/styles/desktop.scss 310 KiB [built] [code generated]
+  + 15 modules
+
+WARNING in ./app/node_modules/@github/copilot-sdk/dist/client.js 31:17-28
+Critical dependency: Accessing import.meta directly is unsupported (only property access or destructuring is supported)
+ @ ./app/node_modules/@github/copilot-sdk/dist/index.js 1:0-44 4:0-9:2
+ @ ./app/src/lib/stores/copilot-store.ts 1:0-52 105:19-32
+ @ ./app/src/lib/stores/index.ts 4:0-32 4:0-32
+ @ ./app/src/ui/index.tsx 7:0-189 160:28-43 161:37-61 162:24-35 164:26-39 164:54-64 165:24-35 168:30-47 169:29-45 176:25-37 179:21-29
+
+1 warning has detailed information that is not shown.
+Use 'stats.errorDetails: true' resp. '--stats-error-details' to show it.
+
+webpack 5.94.0 compiled with 1 warning in 67697 ms
+
+asset crash.js 140 KiB [emitted] [minimized] (name: crash) 2 related assets
+asset crash.css 20.5 KiB [emitted] (name: crash) 1 related asset
+asset crash.html 258 bytes [emitted]
+Entrypoint crash 160 KiB (831 KiB) = crash.css 20.5 KiB crash.js 140 KiB 2 auxiliary assets
+orphan modules 517 KiB (javascript) 937 bytes (runtime) [orphan] 49 modules
+runtime modules 937 bytes 4 modules
+built modules 570 KiB (javascript) 20.5 KiB (css/mini-extract) [built]
+  modules by path ./app/node_modules/ 125 KiB
+    modules by path ./app/node_modules/react/ 6.86 KiB 2 modules
+    modules by path ./app/node_modules/react-dom/ 107 KiB 2 modules
+    modules by path ./app/node_modules/scheduler/ 5.08 KiB 2 modules
+    + 4 modules
+  modules by path ./app/src/crash/ 445 KiB (javascript) 20.5 KiB (css/mini-extract)
+    ./app/src/crash/index.tsx + 41 modules 445 KiB [not cacheable] [built] [code generated]
+    ./app/src/crash/styles/crash.scss 50 bytes [built] [code generated]
+    css ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./app/src/crash/styles/crash.scss 20.5 KiB [built] [code generated]
+webpack 5.94.0 compiled successfully in 38576 ms
+
+asset cli.js 4.46 KiB [emitted] [minimized] (name: cli) 1 related asset
+runtime modules 663 bytes 3 modules
+orphan modules 84 bytes [orphan] 2 modules
+built modules 8.48 KiB [built]
+  ./app/src/cli/main.ts + 2 modules 2.43 KiB [not cacheable] [built] [code generated]
+  ./app/node_modules/minimist/index.js 6.05 KiB [built] [code generated]
+webpack 5.94.0 compiled successfully in 19626 ms
+
+assets by path highlighter/mode/*.js 356 KiB
+  asset highlighter/mode/sql.js 46.3 KiB [emitted] [minimized] (name: mode/sql) (id hint: modes) 1 related asset
+  asset highlighter/mode/css.js 26.5 KiB [emitted] [minimized] (name: mode/css) (id hint: modes) 1 related asset
+  asset highlighter/mode/stylus.js 25.4 KiB [emitted] [minimized] (name: mode/stylus) (id hint: modes) 1 related asset
+  asset highlighter/mode/clike.js 20.5 KiB [emitted] [minimized] (name: mode/clike) (id hint: modes) 1 related asset
+  asset highlighter/mode/javascript.js 17.1 KiB [emitted] [minimized] (name: mode/javascript) (id hint: modes) 1 related asset
+  asset highlighter/mode/markdown.js 14.5 KiB [emitted] [minimized] (name: mode/markdown) (id hint: modes) 1 related asset
+  asset highlighter/mode/php.js 13.5 KiB [emitted] [minimized] (name: mode/php) (id hint: modes) 1 related asset
+  + 50 assets
+assets by path highlighter/ext/*.js 7.74 KiB
+  asset highlighter/ext/elixir.js 4.67 KiB [emitted] [minimized] (name: ext/elixir) (id hint: modes) 1 related asset
+  asset highlighter/ext/luau.js 2 KiB [emitted] [minimized] (name: ext/luau) (id hint: modes) 1 related asset
+  asset highlighter/ext/zig.js 1.07 KiB [emitted] [minimized] (name: ext/zig) (id hint: modes) 1 related asset
+asset highlighter/common.js 19.6 KiB [emitted] [minimized] (name: common) (id hint: modes) 1 related asset
+asset highlighter.js 16.8 KiB [emitted] [minimized] (name: highlighter) 1 related asset
+runtime modules 4.72 KiB 10 modules
+modules by path ./app/node_modules/codemirror/mode/ 716 KiB
+  ./app/node_modules/codemirror/mode/javascript/javascript.js 38 KiB [built] [code generated]
+  ./app/node_modules/codemirror/mode/coffeescript/coffeescript.js 9.8 KiB [built] [code generated]
+  ./app/node_modules/codemirror/mode/jsx/jsx.js 5.17 KiB [built] [code generated]
+  + 55 modules
+modules by path ./app/node_modules/codemirror/addon/ 27.4 KiB
+  ./app/node_modules/codemirror/addon/runmode/runmode.node.js 11.2 KiB [built] [code generated]
+  ./app/node_modules/codemirror/addon/mode/multiplex.js 5.07 KiB [built] [code generated]
+  ./app/node_modules/codemirror/addon/mode/overlay.js 3.17 KiB [built] [code generated]
+  ./app/node_modules/codemirror/addon/mode/simple.js 7.89 KiB [built] [code generated]
+./app/src/highlighter/index.ts 17.2 KiB [built] [code generated]
+./app/node_modules/codemirror-mode-elixir/dist/codemirror-mode-elixir.m.js 4.59 KiB [built] [code generated]
+./app/node_modules/codemirror-mode-luau/index.js 4.39 KiB [built] [code generated]
+./app/node_modules/codemirror-mode-zig/index.js 2.42 KiB [built] [code generated]
+webpack 5.94.0 compiled successfully in 39656 ms
+Building for production…
+Removing old distribution…
+Copying dependencies…
+  Installing dependencies via yarn…
+  Copying desktop-askpass-trampoline…
+  Copying git environment…
+  Copying desktop credential helper…
+  Copying process-proxy binary
+  Copying printenvz binary
+Packaging emoji…
+Error: ENOENT: no such file or directory, lstat '/home/runner/work/gitea-desktop-dev/gitea-desktop-dev/gemoji/images/emoji'
+    at cpSyncFn (node:internal/fs/cp/cp-sync:56:13)
+    at cpSync (node:fs:3147:3)
+    at removeAndCopy (/home/runner/work/gitea-desktop-dev/gitea-desktop-dev/script/build.ts:241:9)
+    at copyEmoji (/home/runner/work/gitea-desktop-dev/gitea-desktop-dev/script/build.ts:247:3)
+    at Object.<anonymous> (/home/runner/work/gitea-desktop-dev/gitea-desktop-dev/script/build.ts:77:1)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Module.m._compile (/home/runner/work/gitea-desktop-dev/gitea-desktop-dev/node_modules/ts-node/src/index.ts:439:23)
+    at node:internal/modules/cjs/loader:1893:10
+    at Object.require.extensions.<computed> [as .ts] (/home/runner/work/gitea-desktop-dev/gitea-desktop-dev/node_modules/ts-node/src/index.ts:442:12)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)
+    at Object.<anonymous> (/home/runner/work/gitea-desktop-dev/gitea-desktop-dev/node_modules/ts-node/src/bin.ts:147:12)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+error Command failed with exit code 1.
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
+Error: Process completed with exit code 1.
+
+
+linux: yarn run v1.21.1
+$ yarn compile:prod && cross-env NODE_ENV=production ts-node -P script/tsconfig.json script/build.ts
+$ cross-env NODE_ENV=production TS_NODE_PROJECT=script/tsconfig.json NODE_OPTIONS='--max_old_space_size=4096' webpack --config app/webpack.production.ts
+Webpack Bundle Analyzer saved report to /home/runner/work/gitea-desktop-dev/gitea-desktop-dev/out/renderer.report.html
+asset main.js 231 KiB [emitted] [minimized] (name: main) 2 related assets
+asset desktop-notifications.node 14.6 KiB [emitted] (auxiliary name: main)
+orphan modules 235 KiB [orphan] 66 modules
+runtime modules 1.04 KiB 5 modules
+cacheable modules 564 KiB 155 modules
++ 16 modules
+webpack 5.94.0 compiled successfully in 41001 ms
+
+assets by chunk 167 KiB (auxiliary name: renderer)
+  assets by path *.node 129 KiB
+    asset keytar.node 75.2 KiB [emitted] (auxiliary name: renderer)
+    asset fs_admin.node 39 KiB [emitted] (auxiliary name: renderer)
+    asset desktop-notifications.node 14.6 KiB [compared for emit] (auxiliary name: renderer)
+  assets by info 38.4 KiB [immutable]
+    asset 8de8e0377a0e3218f870.svg 29.7 KiB [emitted] [immutable] [from: app/static/common/release-note-header-left.svg] (auxiliary name: renderer)
+    asset 8e48abccd873a37faf51.svg 8.55 KiB [emitted] [immutable] [from: app/static/common/release-note-header-right.svg] (auxiliary name: renderer)
+    asset a7b45a45d471743a8d54.cmd 79 bytes [emitted] [immutable] [from: app/node_modules/fs-admin/src/copy-folder.cmd] (auxiliary name: renderer)
+assets by chunk 2.92 MiB (name: renderer)
+  asset renderer.js 2.6 MiB [emitted] [minimized] (name: renderer) 2 related assets
+  asset renderer.css 320 KiB [emitted] (name: renderer) 1 related asset
+asset index.html 236 bytes [emitted]
+Entrypoint renderer 2.92 MiB (9.74 MiB) = renderer.css 320 KiB renderer.js 2.6 MiB 8 auxiliary assets
+orphan modules 5.51 MiB (javascript) 38.3 KiB (asset) 1.06 KiB (runtime) [orphan] 909 modules
+runtime modules 2.25 KiB 7 modules
+built modules 5.64 MiB (javascript) 321 KiB (css/mini-extract) 79 bytes (asset) [built]
+  modules by path ./app/node_modules/ 1.07 MiB (javascript) 10.6 KiB (css/mini-extract) 79 bytes (asset)
+    javascript modules 1.07 MiB 398 modules
+    css modules 10.6 KiB 2 modules
+    ./app/node_modules/fs-admin/src/copy-folder.cmd 42 bytes (javascript) 79 bytes (asset) [built] [code generated]
+  modules by path ./app/src/ui/ 4.56 MiB
+    ./app/src/ui/index.tsx + 816 modules 4.56 MiB [not cacheable] [built] [code generated] [1 warning]
+    ./app/src/ui/lib/git-perf.ts 1.34 KiB [built] [code generated]
+  modules by path ./app/styles/*.scss 50 bytes (javascript) 310 KiB (css/mini-extract)
+    ./app/styles/desktop.scss 50 bytes [built] [code generated]
+    css ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./app/styles/desktop.scss 310 KiB [built] [code generated]
+  + 15 modules
+
+WARNING in ./app/node_modules/@github/copilot-sdk/dist/client.js 31:17-28
+Critical dependency: Accessing import.meta directly is unsupported (only property access or destructuring is supported)
+ @ ./app/node_modules/@github/copilot-sdk/dist/index.js 1:0-44 4:0-9:2
+ @ ./app/src/lib/stores/copilot-store.ts 1:0-52 105:19-32
+ @ ./app/src/lib/stores/index.ts 4:0-32 4:0-32
+ @ ./app/src/ui/index.tsx 7:0-189 160:28-43 161:37-61 162:24-35 164:26-39 164:54-64 165:24-35 168:30-47 169:29-45 176:25-37 179:21-29
+
+1 warning has detailed information that is not shown.
+Use 'stats.errorDetails: true' resp. '--stats-error-details' to show it.
+
+webpack 5.94.0 compiled with 1 warning in 67697 ms
+
+asset crash.js 140 KiB [emitted] [minimized] (name: crash) 2 related assets
+asset crash.css 20.5 KiB [emitted] (name: crash) 1 related asset
+asset crash.html 258 bytes [emitted]
+Entrypoint crash 160 KiB (831 KiB) = crash.css 20.5 KiB crash.js 140 KiB 2 auxiliary assets
+orphan modules 517 KiB (javascript) 937 bytes (runtime) [orphan] 49 modules
+runtime modules 937 bytes 4 modules
+built modules 570 KiB (javascript) 20.5 KiB (css/mini-extract) [built]
+  modules by path ./app/node_modules/ 125 KiB
+    modules by path ./app/node_modules/react/ 6.86 KiB 2 modules
+    modules by path ./app/node_modules/react-dom/ 107 KiB 2 modules
+    modules by path ./app/node_modules/scheduler/ 5.08 KiB 2 modules
+    + 4 modules
+  modules by path ./app/src/crash/ 445 KiB (javascript) 20.5 KiB (css/mini-extract)
+    ./app/src/crash/index.tsx + 41 modules 445 KiB [not cacheable] [built] [code generated]
+    ./app/src/crash/styles/crash.scss 50 bytes [built] [code generated]
+    css ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./app/src/crash/styles/crash.scss 20.5 KiB [built] [code generated]
+webpack 5.94.0 compiled successfully in 38576 ms
+
+asset cli.js 4.46 KiB [emitted] [minimized] (name: cli) 1 related asset
+runtime modules 663 bytes 3 modules
+orphan modules 84 bytes [orphan] 2 modules
+built modules 8.48 KiB [built]
+  ./app/src/cli/main.ts + 2 modules 2.43 KiB [not cacheable] [built] [code generated]
+  ./app/node_modules/minimist/index.js 6.05 KiB [built] [code generated]
+webpack 5.94.0 compiled successfully in 19626 ms
+
+assets by path highlighter/mode/*.js 356 KiB
+  asset highlighter/mode/sql.js 46.3 KiB [emitted] [minimized] (name: mode/sql) (id hint: modes) 1 related asset
+  asset highlighter/mode/css.js 26.5 KiB [emitted] [minimized] (name: mode/css) (id hint: modes) 1 related asset
+  asset highlighter/mode/stylus.js 25.4 KiB [emitted] [minimized] (name: mode/stylus) (id hint: modes) 1 related asset
+  asset highlighter/mode/clike.js 20.5 KiB [emitted] [minimized] (name: mode/clike) (id hint: modes) 1 related asset
+  asset highlighter/mode/javascript.js 17.1 KiB [emitted] [minimized] (name: mode/javascript) (id hint: modes) 1 related asset
+  asset highlighter/mode/markdown.js 14.5 KiB [emitted] [minimized] (name: mode/markdown) (id hint: modes) 1 related asset
+  asset highlighter/mode/php.js 13.5 KiB [emitted] [minimized] (name: mode/php) (id hint: modes) 1 related asset
+  + 50 assets
+assets by path highlighter/ext/*.js 7.74 KiB
+  asset highlighter/ext/elixir.js 4.67 KiB [emitted] [minimized] (name: ext/elixir) (id hint: modes) 1 related asset
+  asset highlighter/ext/luau.js 2 KiB [emitted] [minimized] (name: ext/luau) (id hint: modes) 1 related asset
+  asset highlighter/ext/zig.js 1.07 KiB [emitted] [minimized] (name: ext/zig) (id hint: modes) 1 related asset
+asset highlighter/common.js 19.6 KiB [emitted] [minimized] (name: common) (id hint: modes) 1 related asset
+asset highlighter.js 16.8 KiB [emitted] [minimized] (name: highlighter) 1 related asset
+runtime modules 4.72 KiB 10 modules
+modules by path ./app/node_modules/codemirror/mode/ 716 KiB
+  ./app/node_modules/codemirror/mode/javascript/javascript.js 38 KiB [built] [code generated]
+  ./app/node_modules/codemirror/mode/coffeescript/coffeescript.js 9.8 KiB [built] [code generated]
+  ./app/node_modules/codemirror/mode/jsx/jsx.js 5.17 KiB [built] [code generated]
+  + 55 modules
+modules by path ./app/node_modules/codemirror/addon/ 27.4 KiB
+  ./app/node_modules/codemirror/addon/runmode/runmode.node.js 11.2 KiB [built] [code generated]
+  ./app/node_modules/codemirror/addon/mode/multiplex.js 5.07 KiB [built] [code generated]
+  ./app/node_modules/codemirror/addon/mode/overlay.js 3.17 KiB [built] [code generated]
+  ./app/node_modules/codemirror/addon/mode/simple.js 7.89 KiB [built] [code generated]
+./app/src/highlighter/index.ts 17.2 KiB [built] [code generated]
+./app/node_modules/codemirror-mode-elixir/dist/codemirror-mode-elixir.m.js 4.59 KiB [built] [code generated]
+./app/node_modules/codemirror-mode-luau/index.js 4.39 KiB [built] [code generated]
+./app/node_modules/codemirror-mode-zig/index.js 2.42 KiB [built] [code generated]
+webpack 5.94.0 compiled successfully in 39656 ms
+Building for production…
+Removing old distribution…
+Copying dependencies…
+  Installing dependencies via yarn…
+  Copying desktop-askpass-trampoline…
+  Copying git environment…
+  Copying desktop credential helper…
+  Copying process-proxy binary
+  Copying printenvz binary
+Packaging emoji…
+Error: ENOENT: no such file or directory, lstat '/home/runner/work/gitea-desktop-dev/gitea-desktop-dev/gemoji/images/emoji'
+    at cpSyncFn (node:internal/fs/cp/cp-sync:56:13)
+    at cpSync (node:fs:3147:3)
+    at removeAndCopy (/home/runner/work/gitea-desktop-dev/gitea-desktop-dev/script/build.ts:241:9)
+    at copyEmoji (/home/runner/work/gitea-desktop-dev/gitea-desktop-dev/script/build.ts:247:3)
+    at Object.<anonymous> (/home/runner/work/gitea-desktop-dev/gitea-desktop-dev/script/build.ts:77:1)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+    at Module.m._compile (/home/runner/work/gitea-desktop-dev/gitea-desktop-dev/node_modules/ts-node/src/index.ts:439:23)
+    at node:internal/modules/cjs/loader:1893:10
+    at Object.require.extensions.<computed> [as .ts] (/home/runner/work/gitea-desktop-dev/gitea-desktop-dev/node_modules/ts-node/src/index.ts:442:12)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)
+    at Object.<anonymous> (/home/runner/work/gitea-desktop-dev/gitea-desktop-dev/node_modules/ts-node/src/bin.ts:147:12)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+error Command failed with exit code 1.
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
+Error: Process completed with exit code 1.
+
+windows:
+
+yarn run v1.21.1
+$ yarn compile:prod && cross-env NODE_ENV=production ts-node -P script/tsconfig.json script/build.ts
+$ cross-env NODE_ENV=production TS_NODE_PROJECT=script/tsconfig.json NODE_OPTIONS='--max_old_space_size=4096' webpack --config app/webpack.production.ts
+Webpack Bundle Analyzer saved report to D:\a\gitea-desktop-dev\gitea-desktop-dev\out\renderer.report.html
+asset registry.node 681 KiB [emitted] (auxiliary name: main)
+asset desktop-notifications.node 330 KiB [emitted] (auxiliary name: main)
+asset main.js 236 KiB [emitted] [minimized] (name: main) 2 related assets
+orphan modules 235 KiB [orphan] 66 modules
+runtime modules 1.04 KiB 5 modules
+cacheable modules 564 KiB 156 modules
++ 16 modules
+webpack 5.94.0 compiled successfully in 50874 ms
+
+assets by chunk 2.45 MiB (auxiliary name: renderer)
+  assets by status 1.46 MiB [emitted]
+    assets by path *.node 1.42 MiB
+      asset keytar.node 691 KiB [emitted] (auxiliary name: renderer)
+      + 2 assets
+    assets by info 38.4 KiB [immutable]
+      asset 200e87563bcd05fc78c1.svg 29.8 KiB [emitted] [immutable] [from: app/static/common/release-note-header-left.svg] (auxiliary name: renderer)
+      + 2 assets
+  assets by status 1010 KiB [compared for emit]
+    asset registry.node 681 KiB [compared for emit] (auxiliary name: renderer)
+    asset desktop-notifications.node 330 KiB [compared for emit] (auxiliary name: renderer)
+assets by chunk 2.94 MiB (name: renderer)
+  asset renderer.js 2.63 MiB [emitted] [minimized] (name: renderer) 2 related assets
+  asset renderer.css 320 KiB [emitted] (name: renderer) 1 related asset
+asset index.html 236 bytes [emitted]
+Entrypoint renderer 2.94 MiB (12.3 MiB) = renderer.css 320 KiB renderer.js 2.63 MiB 10 auxiliary assets
+orphan modules 5.54 MiB (javascript) 38.3 KiB (asset) 1.06 KiB (runtime) [orphan] 909 modules
+runtime modules 2.25 KiB 7 modules
+built modules 5.64 MiB (javascript) 321 KiB (css/mini-extract) 79 bytes (asset) [built]
+    at Object.require.extensions.<computed> [as .ts] (D:\a\gitea-desktop-dev\gitea-desktop-dev\node_modules\ts-node\src\index.ts:442:12)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)
+    at Object.<anonymous> (D:\a\gitea-desktop-dev\gitea-desktop-dev\node_modules\ts-node\src\bin.ts:147:12)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14)
+error Command failed with exit code 1.
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
+Error: Process completed with exit code 1.
