@@ -39,6 +39,8 @@ if (process.platform === 'darwin') {
   packageOSX()
 } else if (process.platform === 'win32') {
   packageWindows()
+} else if (process.platform === 'linux') {
+  packageLinux()
 } else {
   console.error(`I don't know how to package for ${process.platform} :(`)
   process.exit(1)
@@ -49,6 +51,19 @@ writeFileSync(
   path.join(getDistRoot(), 'bundle-size.json'),
   JSON.stringify(getBundleSizes())
 )
+
+function packageLinux() {
+  const arch = getDistArchitecture()
+  const archiveName = `${productName}-linux-${arch}.tar.gz`
+  const archivePath = join(outputDir, archiveName)
+  const appDir = path.basename(distPath)
+
+  console.log('Packaging for Linux…')
+  cp.execSync(`tar -czf "${archivePath}" -C "${path.dirname(distPath)}" "${appDir}"`, {
+    stdio: 'inherit',
+  })
+  console.log(`Created ${archivePath}`)
+}
 
 function packageOSX() {
   const dest = getOSXZipPath()
