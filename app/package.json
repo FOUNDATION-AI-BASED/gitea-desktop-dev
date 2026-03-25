@@ -1,5 +1,5 @@
 {
-  "name": "desktop",
+  "name": "gitea-desktop",
   "productName": "Gitea Desktop",
   "bundleID": "com.gitea.Desktop",
   "companyName": "Gitea",

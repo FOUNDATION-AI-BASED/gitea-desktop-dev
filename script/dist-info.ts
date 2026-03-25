@@ -32,8 +32,12 @@ export function getExecutableName() {
   }
 }
 
+/** Human-readable macOS archive names (avoid ambiguous "arm64" alone on the release page). */
 export function getOSXZipName() {
-  return `${productName}-${getDistArchitecture()}.zip`
+  const arch = getDistArchitecture()
+  const label =
+    arch === 'arm64' ? 'macos-apple-silicon-arm64' : 'macos-intel-x64'
+  return `${productName}-${label}.zip`
 }
 
 export function getOSXZipPath() {

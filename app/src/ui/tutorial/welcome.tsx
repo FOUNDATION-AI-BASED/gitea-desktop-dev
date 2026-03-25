@@ -17,9 +17,9 @@ export class TutorialWelcome extends React.Component {
     return (
       <div id="tutorial-welcome">
         <div className="header">
-          <h1>Welcome to GitHub Desktop</h1>
+          <h1>Welcome to Gitea Desktop</h1>
           <p>
-            Use this tutorial to get comfortable with Git, GitHub, and GitHub
+            Use this tutorial to get comfortable with Git, Gitea, and Gitea
             Desktop.
           </p>
         </div>
@@ -36,15 +36,14 @@ export class TutorialWelcome extends React.Component {
               alt="People with discussion bubbles overhead"
             />
             <p>
-              <strong>GitHub</strong> is where you store your code and
-              collaborate with others.
+              <strong>Gitea</strong> is where you store your code and
+              collaborate with others (self-hosted or cloud).
             </p>
           </li>
           <li>
             <img src={CloudServerImage} alt="Server stack with cloud" />
             <p>
-              <strong>GitHub Desktop</strong> helps you work with GitHub
-              locally.
+              <strong>Gitea Desktop</strong> helps you work with Gitea locally.
             </p>
           </li>
         </ul>

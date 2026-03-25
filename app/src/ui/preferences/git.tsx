@@ -77,7 +77,7 @@ export class Git extends React.Component<IGitProps> {
     return (
       <>
         <div className="hooks-warning">
-          GitHub Desktop hook support is experimental and currently only
+          Gitea Desktop hook support is experimental and currently only
           supports hooks related to committing. Please{' '}
           <LinkButton uri="https://github.com/desktop/desktop/issues/new/choose">
             let us know
@@ -93,7 +93,7 @@ export class Git extends React.Component<IGitProps> {
           onChange={this.onEnableGitHookEnvChanged}
         />
         <p className="git-hooks-env-description">
-          When enabled, GitHub Desktop will attempt to load environment
+          When enabled, Gitea Desktop will attempt to load environment
           variables from your shell when executing Git hooks. This is useful if
           your Git hooks depend on environment variables set in your shell
           configuration files, a common practice for version managers such as

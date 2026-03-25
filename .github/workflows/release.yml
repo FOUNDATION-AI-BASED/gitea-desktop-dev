@@ -1,17 +1,25 @@
-# Build and release Gitea Desktop when a version tag is pushed
+# Build and attach binaries when a GitHub Release is published (tag must exist).
+# Create the release in the UI (or gh cli), set the tag (e.g. v0.1.0), then Publish.
 name: Release
 
 on:
-  push:
-    tags:
-      - 'v*'
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag to build (e.g. v0.1.0) — must exist on the repo'
+        required: true
+        type: string
 
 env:
   NODE_VERSION: 24.11.1
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   build:
-    name: Build ${{ matrix.friendlyName }} ${{ matrix.arch }}
+    # macOS: macAssetLabel makes Apple Silicon vs Intel obvious in the Actions UI.
+    name: Build ${{ matrix.friendlyName }} ${{ matrix.macAssetLabel || matrix.arch }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -20,25 +28,49 @@ jobs:
           - os: macos-14
             arch: x64
             friendlyName: macOS
+            macAssetLabel: macos-intel-x64
           - os: macos-14
             arch: arm64
             friendlyName: macOS
+            macAssetLabel: macos-apple-silicon-arm64
           - os: windows-2022
             arch: x64
             friendlyName: Windows
           - os: windows-2022
             arch: arm64
             friendlyName: Windows
+          - os: ubuntu-24.04
+            arch: x64
+            friendlyName: Linux
+          # ARM64 Linux requires an arm64 runner image (not x64 ubuntu + arch env)
+          - os: ubuntu-24.04-arm
+            arch: arm64
+            friendlyName: Linux
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
+        if: github.event_name == 'release'
         with:
+          ref: ${{ github.ref }}
           submodules: recursive
 
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+        if: github.event_name == 'workflow_dispatch'
+        with:
+          ref: ${{ inputs.tag }}
+          submodules: recursive
+
+      # Required for script/build.ts copyEmoji / static licenses (forks may lack submodule gitlinks).
+      - name: Ensure vendor repos (gemoji, gitignore, choosealicense)
+        shell: bash
+        run: |
+          test -f script/ensure-vendor-submodules.sh
+          bash script/ensure-vendor-submodules.sh
+
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.11'
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: yarn
@@ -77,39 +109,54 @@ jobs:
           RELEASE_CHANNEL: development
           npm_config_arch: ${{ matrix.arch }}
 
+      - name: Install Linux dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          # Noble (24.04): ALSA is libasound2t64, not libasound2 (virtual package)
+          sudo apt-get install -y libgtk-3-0 libnotify4 libnss3 libxss1 libasound2t64
+
+      - name: Package production app (Linux)
+        if: runner.os == 'Linux'
+        run: yarn package
+        env:
+          RELEASE_CHANNEL: development
+          npm_config_arch: ${{ matrix.arch }}
+          TARGET_ARCH: ${{ matrix.arch }}
+
       - name: Upload macOS artifact
         if: runner.os == 'macOS'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
-          name: macos-${{ matrix.arch }}
-          path: |
-            dist/Gitea Desktop-${{ matrix.arch }}.zip
+          name: ${{ matrix.macAssetLabel }}
+          path: dist/Gitea Desktop-${{ matrix.macAssetLabel }}.zip
 
       - name: Upload Windows artifacts
         if: runner.os == 'Windows'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: windows-${{ matrix.arch }}
           path: |
             dist/GiteaDesktopSetup-${{ matrix.arch }}.exe
             dist/GiteaDesktopSetup-${{ matrix.arch }}.msi
 
-  release:
-    name: Create Release
+      - name: Upload Linux artifacts
+        if: runner.os == 'Linux'
+        uses: actions/upload-artifact@v5
+        with:
+          name: linux-${{ matrix.arch }}
+          path: |
+            dist/Gitea Desktop-linux-${{ matrix.arch }}.tar.gz
+
+  attach-assets:
+    name: Attach assets to release
     needs: build
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Get version from tag
-        id: version
-        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
-
       - name: Download all artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           path: artifacts
 
@@ -119,23 +166,20 @@ jobs:
           find artifacts -type f -exec cp {} release-assets/ \;
           ls -la release-assets/
 
-      - name: Create GitHub Release
+      - name: Upload files to GitHub Release
+        if: github.event_name == 'release'
         uses: softprops/action-gh-release@v2
         with:
-          name: Gitea Desktop v${{ steps.version.outputs.VERSION }}
-          body: |
-            ## Gitea Desktop ${{ steps.version.outputs.VERSION }}
+          tag_name: ${{ github.event.release.tag_name }}
+          files: release-assets/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-            Git client for self-hosted Gitea instances.
-
-            ### Downloads
-
-            - **macOS (Intel)**: `Gitea Desktop-x64.zip`
-            - **macOS (Apple Silicon)**: `Gitea Desktop-arm64.zip`
-            - **Windows (64-bit)**: `GiteaDesktopSetup-x64.exe` or `.msi`
-            - **Windows (ARM64)**: `GiteaDesktopSetup-arm64.exe` or `.msi`
-          draft: false
-          prerelease: ${{ contains(steps.version.outputs.VERSION, '-') }}
+      - name: Upload files to release (manual run)
+        if: github.event_name == 'workflow_dispatch'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ inputs.tag }}
           files: release-assets/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,10 +1,8 @@
 name: CI
 
+# Fork: no automatic builds on push/PR. Run manually or rely on the Release workflow.
 on:
-  push:
-    branches:
-      - development
-  pull_request:
+  workflow_dispatch:
   workflow_call:
     inputs:
       repository:
@@ -38,6 +36,7 @@ on:
 
 env:
   NODE_VERSION: 24.11.1
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   lint:
@@ -48,12 +47,12 @@ jobs:
     env:
       RELEASE_CHANNEL: ${{ inputs.environment }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           repository: ${{ inputs.repository || github.repository }}
           ref: ${{ inputs.ref }}
           submodules: recursive
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: yarn
@@ -84,16 +83,21 @@ jobs:
     env:
       RELEASE_CHANNEL: ${{ inputs.environment }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           repository: ${{ inputs.repository || github.repository }}
           ref: ${{ inputs.ref }}
           submodules: recursive
-      - uses: actions/setup-python@v5
+      - name: Ensure vendor repos (gemoji, gitignore, choosealicense)
+        shell: bash
+        run: |
+          test -f script/ensure-vendor-submodules.sh
+          bash script/ensure-vendor-submodules.sh
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.11'
       - name: Use Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: yarn
@@ -155,13 +159,22 @@ jobs:
           npm_config_arch: ${{ matrix.arch }}
           AZURE_TENANT_ID: ${{ secrets.AZURE_CODE_SIGNING_TENANT_ID }}
           AZURE_CLIENT_ID: ${{ secrets.AZURE_CODE_SIGNING_CLIENT_ID }}
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
-        if: ${{ inputs.upload-artifacts }}
+      - name: Upload macOS build artifacts
+        uses: actions/upload-artifact@v5
+        if: ${{ inputs.upload-artifacts && runner.os == 'macOS' }}
         with:
           name: ${{matrix.friendlyName}}-${{matrix.arch}}
           path: |
-            dist/Gitea Desktop-${{matrix.arch}}.zip
+            dist/Gitea Desktop-${{ matrix.arch == 'arm64' && 'macos-apple-silicon-arm64' || 'macos-intel-x64' }}.zip
+            dist/bundle-size.json
+          if-no-files-found: error
+
+      - name: Upload Windows build artifacts
+        uses: actions/upload-artifact@v5
+        if: ${{ inputs.upload-artifacts && runner.os == 'Windows' }}
+        with:
+          name: ${{matrix.friendlyName}}-${{matrix.arch}}
+          path: |
             dist/GiteaDesktop-*.nupkg
             dist/GiteaDesktopSetup-${{matrix.arch}}.exe
             dist/GiteaDesktopSetup-${{matrix.arch}}.msi

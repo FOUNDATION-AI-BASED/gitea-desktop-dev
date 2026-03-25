@@ -49,8 +49,8 @@ The release workflow produces:
 
 | Platform  | File(s)                                      |
 |-----------|-----------------------------------------------|
-| macOS x64 | `Gitea Desktop-x64.zip`                       |
-| macOS arm64 | `Gitea Desktop-arm64.zip`                  |
+| macOS Intel (x64) | `Gitea Desktop-macos-intel-x64.zip` |
+| macOS Apple Silicon (arm64) | `Gitea Desktop-macos-apple-silicon-arm64.zip` |
 | Windows x64 | `GiteaDesktopSetup-x64.exe`, `.msi`       |
 | Windows arm64 | `GiteaDesktopSetup-arm64.exe`, `.msi`    |
 
