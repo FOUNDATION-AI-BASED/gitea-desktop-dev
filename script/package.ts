@@ -39,6 +39,8 @@ if (process.platform === 'darwin') {
   packageOSX()
 } else if (process.platform === 'win32') {
   packageWindows()
+} else if (process.platform === 'linux') {
+  packageLinux()
 } else {
   console.error(`I don't know how to package for ${process.platform} :(`)
   process.exit(1)
@@ -50,13 +52,47 @@ writeFileSync(
   JSON.stringify(getBundleSizes())
 )
 
+function packageLinux() {
+  const arch = getDistArchitecture()
+  const archiveName = `${productName}-linux-${arch}.tar.gz`
+  const archivePath = join(outputDir, archiveName)
+  const appDir = path.basename(distPath)
+
+  console.log('Packaging for Linux…')
+  cp.execSync(`tar -czf "${archivePath}" -C "${path.dirname(distPath)}" "${appDir}"`, {
+    stdio: 'inherit',
+  })
+  console.log(`Created ${archivePath}`)
+}
+
 function packageOSX() {
+  const appBundle = path.join(distPath, `${productName}.app`)
   const dest = getOSXZipPath()
   rmSync(dest, { recursive: true, force: true })
 
+  // CI unsigned builds: electron-packager ad-hoc-signs the main binary but Electron
+  // Framework can keep Electron's original Team ID, causing dyld to abort with
+  // "different Team IDs" when the app is quarantine-translocated. Deep ad-hoc
+  // re-sign unifies the bundle. Skip for local Developer ID releases (set
+  // SKIP_MAC_DEEP_ADHOC_SIGN=1) or force with FORCE_MAC_DEEP_ADHOC_SIGN=1 locally.
+  const shouldDeepAdHocSign =
+    existsSync(appBundle) &&
+    process.env.SKIP_MAC_DEEP_ADHOC_SIGN !== '1' &&
+    (process.env.GITHUB_ACTIONS === 'true' ||
+      process.env.FORCE_MAC_DEEP_ADHOC_SIGN === '1')
+
+  if (shouldDeepAdHocSign) {
+    console.log(
+      'Deep ad-hoc re-signing .app (main binary + Electron Framework Team ID alignment)…'
+    )
+    cp.execSync(`codesign --deep --force --sign - "${appBundle}"`, {
+      stdio: 'inherit',
+    })
+  }
+
   console.log('Packaging for macOS…')
   cp.execSync(
-    `ditto -ck --keepParent "${distPath}/${productName}.app" "${dest}"`
+    `ditto -ck --keepParent "${appBundle}" "${dest}"`
   )
 }
 
@@ -70,7 +106,7 @@ function packageWindows() {
 
   const splashScreenPath = path.resolve(
     __dirname,
-    '../app/static/logos/win32-installer-splash.gif'
+    '../app/static/logos/gitea-installer-splash.gif'
   )
 
   if (!existsSync(splashScreenPath)) {

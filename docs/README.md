@@ -19,6 +19,15 @@ resources to get familiar with how things work:
  - **[Troubleshooting](contributing/troubleshooting.md)** - some additional
     known issues if you're having environment issues
 
+## Gitea Desktop fork
+
+Documentation specific to this **Gitea**-oriented fork:
+
+ - **[Gitea Desktop priorities](process/GITEA-DESKTOP-PRIORITIES.md)** — product focus (self-hosted TLS, workflow, API parity)
+ - **[Gitea API audit](technical/gitea-api-audit.md)** — REST paths vs Gitea compatibility and feature-flag notes
+ - **[Self-hosted TLS and CA](technical/self-hosted-tls-and-ca.md)** — trust stores, `NODE_EXTRA_CA_CERTS`, Git
+ - **[Releasing Gitea Desktop](RELEASING-GITEA.md)** — CI/release workflow for this fork
+
 ## Process
 
 Details about how the team is organizing and shipping GitHub Desktop:
