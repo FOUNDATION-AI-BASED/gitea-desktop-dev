@@ -7,7 +7,7 @@ import { Octicon } from '../ui/octicons'
 import * as octicons from '../ui/octicons/octicons.generated'
 import { Button } from '../ui/lib/button'
 import { LinkButton } from '../ui/lib/link-button'
-import { getVersion } from '../ui/lib/app-proxy'
+import { getName, getVersion } from '../ui/lib/app-proxy'
 import { getOS } from '../lib/get-os'
 import * as ipcRenderer from '../lib/ipc-renderer'
 import { getCurrentWindowState } from '../ui/main-process-proxy'
@@ -42,7 +42,7 @@ const BottomImageUri = encodePathAsUrl(
   'static/welcome-illustration-left-bottom.svg'
 )
 
-const issuesUri = 'https://github.com/desktop/desktop/issues'
+const issuesUri = 'https://gitea.io'
 
 /**
  * Formats an error by attempting to strip out user-identifiable information
@@ -136,8 +136,8 @@ export class CrashApp extends React.Component<ICrashAppProps, ICrashAppState> {
   private renderTitle() {
     const message =
       this.state.type === 'launch'
-        ? 'GitHub Desktop failed to launch'
-        : 'GitHub Desktop encountered an error'
+        ? `${getName()} failed to launch`
+        : `${getName()} encountered an error`
 
     return (
       <header>
@@ -151,19 +151,19 @@ export class CrashApp extends React.Component<ICrashAppProps, ICrashAppState> {
     if (this.state.type === 'launch') {
       return (
         <p>
-          GitHub Desktop encountered a catastrophic error that prevents it from
+          {getName()} encountered a catastrophic error that prevents it from
           launching. This has been reported to the team, but if you encounter
-          this repeatedly please report this issue to the GitHub Desktop{' '}
-          <LinkButton uri={issuesUri}>issue tracker</LinkButton>.
+          this repeatedly please report this issue on{' '}
+          <LinkButton uri={issuesUri}>gitea.io</LinkButton>.
         </p>
       )
     } else {
       return (
         <p>
-          GitHub Desktop has encountered an unrecoverable error and will need to
+          {getName()} has encountered an unrecoverable error and will need to
           restart. This has been reported to the team, but if you encounter this
-          repeatedly please report this issue to the GitHub Desktop{' '}
-          <LinkButton uri={issuesUri}>issue tracker</LinkButton>.
+          repeatedly please report this issue on{' '}
+          <LinkButton uri={issuesUri}>gitea.io</LinkButton>.
         </p>
       )
     }

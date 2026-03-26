@@ -98,6 +98,10 @@ import { ReleaseNotes } from './release-notes'
 import { DeletePullRequest } from './delete-branch/delete-pull-request-dialog'
 import { CommitConflictsWarning } from './merge-conflicts'
 import { AppTheme } from './app-theme'
+import { encodePathAsUrl } from '../lib/path'
+
+/** Shown while `loadInitialState` runs on first paint (see `App.loading`). */
+const giteaLogoUrl = encodePathAsUrl(__dirname, 'static/gitea-logo.svg')
 import { ApplicationTheme } from './lib/application-theme'
 import { RepositoryStateCache } from '../lib/stores/repository-state-cache'
 import { PopupType, Popup } from '../models/popup'
@@ -3532,7 +3536,21 @@ export class App extends React.Component<IAppProps, IAppState> {
 
   public render() {
     if (this.loading) {
-      return null
+      return (
+        <div
+          id="desktop-app-loading"
+          className="app-loading"
+          aria-busy={true}
+          aria-label="Loading"
+        >
+          <img
+            className="app-loading-logo"
+            src={giteaLogoUrl}
+            alt=""
+            draggable={false}
+          />
+        </div>
+      )
     }
 
     const className = classNames(

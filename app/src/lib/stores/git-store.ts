@@ -1190,7 +1190,7 @@ export class GitStore extends BaseStore {
   }
 
   /**
-   * Refreshes the list of GitHub Desktop created stash entries for the repository
+   * Refreshes the list of Gitea Desktop created stash entries for the repository
    */
   public async loadStashEntries(): Promise<void> {
     const map = new Map<string, IStashEntry>()
@@ -1221,7 +1221,7 @@ export class GitStore extends BaseStore {
   }
 
   /**
-   * A GitHub Desktop created stash entries for the current branch or
+   * A Gitea Desktop created stash entries for the current branch or
    * null if no entry exists
    */
   public get currentBranchStashEntry() {

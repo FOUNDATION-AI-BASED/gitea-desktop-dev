@@ -631,9 +631,9 @@ export interface IBranchesState {
   /**
    * The default branch for a given repository. Historically it's been
    * common to use 'master' as the default branch but as of September 2020
-   * GitHub Desktop and GitHub.com default to using 'main' as the default branch.
+   * Gitea Desktop and GitHub.com default to using 'main' as the default branch.
    *
-   * GitHub Desktop users are able to configure the `init.defaultBranch` Git
+   * Gitea Desktop users are able to configure the `init.defaultBranch` Git
    * setting in preferences.
    *
    * GitHub.com users are able to change their default branch in the web UI.
@@ -790,7 +790,7 @@ export interface IChangesState {
   readonly conflictState: ConflictState | null
 
   /**
-   * The latest GitHub Desktop stash entry for the current branch, or `null`
+   * The latest Gitea Desktop stash entry for the current branch, or `null`
    * if no stash exists for the current branch.
    */
   readonly stashEntry: IStashEntry | null
@@ -922,9 +922,9 @@ export interface ICompareState {
   /**
    * The default branch for a given repository. Historically it's been
    * common to use 'master' as the default branch but as of September 2020
-   * GitHub Desktop and GitHub.com default to using 'main' as the default branch.
+   * Gitea Desktop and GitHub.com default to using 'main' as the default branch.
    *
-   * GitHub Desktop users are able to configure the `init.defaultBranch` Git
+   * Gitea Desktop users are able to configure the `init.defaultBranch` Git
    * setting in preferences.
    *
    * GitHub.com users are able to change their default branch in the web UI.

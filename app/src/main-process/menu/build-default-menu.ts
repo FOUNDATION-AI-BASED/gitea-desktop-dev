@@ -8,13 +8,16 @@ import { MenuLabelsEvent } from '../../models/menu-labels'
 import * as ipcWebContents from '../ipc-webcontents'
 import { mkdir } from 'fs/promises'
 import { buildTestMenu } from './build-test-menu'
+import { getProductName } from '../../../package-info'
+
+const appDisplayName = getProductName()
 
 const createPullRequestLabel = __DARWIN__
   ? 'Create Pull Request'
   : 'Create &pull request'
 const showPullRequestLabel = __DARWIN__
-  ? 'View Pull Request on GitHub'
-  : 'View &pull request on GitHub'
+  ? 'View Pull Request in browser'
+  : 'View &pull request in browser'
 const defaultBranchNameValue = __DARWIN__ ? 'Default Branch' : 'default branch'
 const confirmRepositoryRemovalLabel = __DARWIN__ ? 'Remove…' : '&Remove…'
 const repositoryRemovalLabel = __DARWIN__ ? 'Remove' : '&Remove'
@@ -64,10 +67,10 @@ export function buildDefaultMenu({
 
   if (__DARWIN__) {
     template.push({
-      label: 'GitHub Desktop',
+      label: appDisplayName,
       submenu: [
         {
-          label: 'About GitHub Desktop',
+          label: `About ${appDisplayName}`,
           click: emit('show-about'),
           id: 'about',
         },
@@ -581,7 +584,7 @@ export function buildDefaultMenu({
         ...helpItems,
         separator,
         {
-          label: '&About GitHub Desktop',
+          label: `&About ${appDisplayName}`,
           click: emit('show-about'),
           id: 'about',
         },

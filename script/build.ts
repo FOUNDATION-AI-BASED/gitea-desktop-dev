@@ -59,6 +59,23 @@ const isPublishableBuild = isPublishable()
 const isNonProductionRelease = getChannel() !== 'production'
 const isDevelopmentBuild = getChannel() === 'development'
 
+/** Base64 .p12 from APPLE_APPLICATION_CERT — required for distribution signing on GHA */
+const hasMacApplicationCertificate = Boolean(
+  process.env.APPLE_APPLICATION_CERT?.trim()
+)
+
+/**
+ * GitHub Actions macOS release builds without Apple signing secrets cannot import a
+ * keychain; use ad-hoc signing (same as local dev) so `yarn build:prod` still works.
+ */
+const macAdHocSignOnGitHubActions =
+  isGitHubActions() &&
+  process.platform === 'darwin' &&
+  isPublishableBuild &&
+  !hasMacApplicationCertificate
+
+const useAdHocMacSigning = isDevelopmentBuild || macAdHocSignOnGitHubActions
+
 const projectRoot = path.join(__dirname, '..')
 const entitlementsSuffix = isDevelopmentBuild ? '-dev' : ''
 const entitlementsPath = `${projectRoot}/script/entitlements${entitlementsSuffix}.plist`
@@ -84,9 +101,18 @@ generateLicenseMetadata(outRoot)
 
 moveAnalysisFiles()
 
-if (isGitHubActions() && process.platform === 'darwin' && isPublishableBuild) {
+if (
+  isGitHubActions() &&
+  process.platform === 'darwin' &&
+  isPublishableBuild &&
+  hasMacApplicationCertificate
+) {
   console.log('Setting up keychain…')
   cp.execSync(path.join(__dirname, 'setup-macos-keychain'))
+} else if (macAdHocSignOnGitHubActions) {
+  console.log(
+    'Skipping macOS keychain: no APPLE_APPLICATION_CERT (building unsigned / ad-hoc signed app).'
+  )
 }
 
 verifyInjectedSassVariables(outRoot)
@@ -150,16 +176,20 @@ function packageApp() {
     )
   }
 
-  // get notarization deets, unless we're not going to publish this
-  const osxNotarize = isPublishableBuild ? getNotarizationOptions() : undefined
+  // get notarization deets when doing a full signed distribution build
+  const osxNotarize =
+    isPublishableBuild && !useAdHocMacSigning
+      ? getNotarizationOptions()
+      : undefined
 
   if (
     isPublishableBuild &&
     isGitHubActions() &&
     process.platform === 'darwin' &&
+    !useAdHocMacSigning &&
     osxNotarize === undefined
   ) {
-    // we can't publish a mac build without these
+    // we can't publish a signed mac build without these
     throw new Error(
       'Unable to retreive appleId and/or appleIdPassword to notarize macOS build'
     )
@@ -202,23 +232,23 @@ function packageApp() {
         hardenedRuntime: true,
         entitlements: entitlementsPath,
       }),
-      type: isPublishableBuild ? 'distribution' : 'development',
-      // For development, we will use '-' as the identifier so that codesign
+      type: useAdHocMacSigning ? 'development' : 'distribution',
+      // For development / ad-hoc CI, we will use '-' as the identifier so that codesign
       // will sign the app to run locally. We need to disable 'identity-validation'
       // or otherwise it will replace '-' with one of the regular codesigning
       // identities in our system.
-      identity: isDevelopmentBuild ? '-' : undefined,
-      identityValidation: !isDevelopmentBuild,
+      identity: useAdHocMacSigning ? '-' : undefined,
+      identityValidation: !useAdHocMacSigning,
     },
-    osxNotarize,
+    osxNotarize: useAdHocMacSigning ? undefined : osxNotarize,
     protocols: [
       {
         name: getBundleID(),
         schemes: [
           !isDevelopmentBuild
-            ? 'x-github-desktop-auth'
-            : 'x-github-desktop-dev-auth',
-          'x-github-client',
+            ? 'x-gitea-desktop-auth'
+            : 'x-gitea-desktop-dev-auth',
+          'x-gitea-client',
           'github-mac',
         ],
       },
@@ -243,6 +273,11 @@ function removeAndCopy(source: string, destination: string) {
 
 function copyEmoji() {
   const emojiImages = path.join(projectRoot, 'gemoji', 'images', 'emoji')
+  if (!existsSync(emojiImages)) {
+    throw new Error(
+      `Missing gemoji data at ${emojiImages}. Run: bash script/ensure-vendor-submodules.sh`
+    )
+  }
   const emojiImagesDestination = path.join(outRoot, 'emoji')
   removeAndCopy(emojiImages, emojiImagesDestination)
 
